@@ -1,0 +1,1 @@
+http://www.codeproject.com/Articles/14342/Designing-And-Implementing-A-Neural-Network-Librar
