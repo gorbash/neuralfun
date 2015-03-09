@@ -43,7 +43,7 @@ public class TrainingManagerTest {
         trainingManager.runTraining(trainList);
 
         assertThat(trained.size(), is(6));
-        assertThat(new HashSet(trained), is(new HashSet<>(trainList)));
+        assertThat(new HashSet<>(trained), is(new HashSet<>(trainList)));
     }
 
     @Test

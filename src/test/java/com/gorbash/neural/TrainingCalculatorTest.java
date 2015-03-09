@@ -2,8 +2,6 @@ package com.gorbash.neural;
 
 import org.junit.Test;
 
-import java.util.Arrays;
-
 import static java.util.Arrays.asList;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
@@ -11,9 +9,9 @@ import static org.hamcrest.core.Is.is;
 /**
  * Created by Gorbash on 2015-03-08.
  */
-public class TrainingCalcualatorTest {
+public class TrainingCalculatorTest {
 
-    TrainingCalculator calc = new TrainingCalculator(2.0);
+    private final TrainingCalculator calc = new TrainingCalculator(2.0);
 
     @Test
     public void testOutputLayerErrorFactors() throws Exception {

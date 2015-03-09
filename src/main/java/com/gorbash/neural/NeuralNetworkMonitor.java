@@ -14,7 +14,7 @@ public class NeuralNetworkMonitor {
 
     private final static Logger logger = Logger.getLogger(NeuralNetworkMonitor.class);
 
-    public NeuralNetwork network;
+    private final NeuralNetwork network;
 
     public NeuralNetworkMonitor(NeuralNetwork network) {
         this.network = checkNotNull(network);

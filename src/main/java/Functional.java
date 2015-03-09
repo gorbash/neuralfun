@@ -1,7 +1,5 @@
-package com.gorbash.neural;
-
 import com.cedarsoftware.util.io.JsonWriter;
-import jdk.nashorn.internal.ir.debug.JSONWriter;
+import com.gorbash.neural.*;
 
 import java.io.FileWriter;
 import java.util.List;
@@ -9,20 +7,20 @@ import java.util.List;
 import static java.util.Arrays.asList;
 
 /**
- * Created by ars032 on 3/9/2015.
+ * Created by GorbasH on 3/9/2015.
  */
 public class Functional {
 
     public static void main(String[] args) throws Exception {
 
         List<TrainingElement> suite = asList(
-                new TrainingElement(asList(0.0, 0.0), asList(0.0)),
-                new TrainingElement(asList(0.0, 1.0), asList(1.0)),
-                new TrainingElement(asList(1.0, 0.0), asList(1.0)),
-                new TrainingElement(asList(1.0, 1.0), asList(0.0)));
+                new TrainingElement(asList(0.0, 0.0), asList(0.0, 0.0)),
+                new TrainingElement(asList(0.0, 1.0), asList(1.0, 0.0)),
+                new TrainingElement(asList(1.0, 0.0), asList(1.0, 0.0)),
+                new TrainingElement(asList(1.0, 1.0), asList(0.0, 1.0)));
 
-        BPNeuralNetwork network = new BPNeuralNetwork.BPPNeuralNetworkBuilder(2, 1).randomizeBias().setHiddenLayers(asList(5,5)).build();
-        BPNNTrainer trainer = BPNNTrainer.build(network);
+        BPNeuralNetwork network = new BPNeuralNetwork.BPPNeuralNetworkBuilder(2, 2).randomizeBias().setHiddenLayers(asList(5,5)).build();
+        BPNNTrainer trainer = BPNNTrainer.build(network, 2.0);
         NeuralNetworkMonitor monitor = new NeuralNetworkMonitor(network);
 
         TrainingManager manager = new TrainingManager(trainer, 1000);

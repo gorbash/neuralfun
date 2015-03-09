@@ -2,19 +2,17 @@ package com.gorbash.neural;
 
 import com.cedarsoftware.util.io.JsonReader;
 import com.cedarsoftware.util.io.JsonWriter;
-import com.gorbash.neural.Neuron;
 import com.gorbash.neural.tfunc.SigmoidTransfer;
-import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.util.Arrays;
 import java.util.List;
 
 import static java.util.Arrays.asList;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.closeTo;
+import static org.hamcrest.Matchers.not;
 import static org.hamcrest.core.Is.is;
-import static org.hamcrest.Matchers.*;
 
 /**
  * Created by Gorbash on 2015-02-02.

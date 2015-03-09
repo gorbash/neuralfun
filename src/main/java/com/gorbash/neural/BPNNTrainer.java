@@ -16,9 +16,10 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class BPNNTrainer implements Trainer {
 
     private final static Logger logger = Logger.getLogger(BPNNTrainer.class);
+    private static final double DEFAULT_LEARNING_RATE = 1.0;
 
     private final BPNeuralNetwork network;
-    private TrainingCalculator calculator;
+    private final TrainingCalculator calculator;
 
     private BPNNTrainer(BPNeuralNetwork network, double learningRate) {
         this.network = network;
@@ -26,7 +27,11 @@ public class BPNNTrainer implements Trainer {
     }
 
     public static BPNNTrainer build(BPNeuralNetwork network) {
-        return new BPNNTrainer(checkNotNull(network), 1.0);
+        return build(checkNotNull(network), DEFAULT_LEARNING_RATE);
+    }
+
+    public static BPNNTrainer build(BPNeuralNetwork network, double learningRate) {
+        return new BPNNTrainer(checkNotNull(network), learningRate);
     }
 
     public void train(TrainingElement element) {
@@ -67,7 +72,7 @@ public class BPNNTrainer implements Trainer {
     }
 
     private List<Double> getResponses(Layer layer) {
-        return layer.getNeurons().stream().map(n -> n.getResponse()).collect(Collectors.toList());
+        return layer.getNeurons().stream().map(Neuron::getResponse).collect(Collectors.toList());
     }
 
     private void updateFreeParams(Layer layer, List<Double> deltas) {

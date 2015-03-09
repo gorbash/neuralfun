@@ -11,19 +11,19 @@ import static org.junit.Assert.assertThat;
  */
 public class NeuralNetworkMonitorTest {
 
-    private NeuralNetwork network = input -> asList(1.0, 2.0, 3.0);
+    private final NeuralNetwork network = input -> asList(1.0, 2.0, 3.0);
 
-    private NeuralNetworkMonitor monitor = new NeuralNetworkMonitor(network);
+    private final NeuralNetworkMonitor monitor = new NeuralNetworkMonitor(network);
 
     @Test
-    public void testThatMonitoCancCalculateTotalErrorForOneElement() throws Exception {
+    public void testThatMonitorCanCalculateTotalErrorForOneElement() throws Exception {
         assertThat(monitor.getTotalError(asList(
                         new TrainingElement(asList(0.0, 0.0, 0.0), asList(0.0, 0.0, 0.0)))),
                 is(6.0));
     }
 
     @Test
-    public void testThatMonitoCancCalculateTotalErrorForThreeElement() throws Exception {
+    public void testThatMonitorCanCalculateTotalErrorForThreeElement() throws Exception {
         assertThat(monitor.getTotalError(asList(
                         new TrainingElement(asList(0.0, 0.0, 0.0), asList(0.5, 0.5, 0.5)),      //4.5
                         new TrainingElement(asList(1.0, 2.0, 3.0), asList(-1.0, -2.0, -2.0)),   //11
@@ -32,7 +32,7 @@ public class NeuralNetworkMonitorTest {
     }
 
     @Test
-    public void testThatMonitoCancCalculateTotalErrorForLearntNetwork() throws Exception {
+    public void testThatMonitorCanCalculateTotalErrorForLearntNetwork() throws Exception {
         assertThat(monitor.getTotalError(asList(
                         new TrainingElement(asList(0.0, 0.0, 0.0), asList(1.0, 2.0, 3.0)))),
                 is(0.0));

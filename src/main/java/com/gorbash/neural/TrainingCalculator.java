@@ -10,7 +10,7 @@ import static com.google.common.base.Preconditions.checkArgument;
  */
 public class TrainingCalculator {
 
-    private double learningRate;
+    private final double learningRate;
 
     public TrainingCalculator(double learningRate) {
         this.learningRate = learningRate;

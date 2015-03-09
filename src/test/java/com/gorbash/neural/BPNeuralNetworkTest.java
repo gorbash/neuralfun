@@ -1,11 +1,8 @@
 package com.gorbash.neural;
 
-import com.gorbash.neural.BPNeuralNetwork;
-import com.gorbash.neural.Layer;
 import com.gorbash.neural.tfunc.LinearTransfer;
 import org.junit.Test;
 
-import java.util.Arrays;
 import java.util.List;
 
 import static java.util.Arrays.asList;
@@ -53,7 +50,7 @@ public class BPNeuralNetworkTest {
         BPNeuralNetwork neuralNetwork = new BPNeuralNetwork.BPPNeuralNetworkBuilder(3, 3).setBias(Math.random()).setHiddenLayers(asList(17, 34, 23, 12, 56)).build();
         List<Double> response = neuralNetwork.giveResponse(asList(Math.random() * 1000 - 500, Math.random() * 1000 - 500, Math.random() * 1000 - 500));
         assertThat(response, hasSize(3));
-        for (Double el:response)
+        for (Double el : response)
             assertThat(el, allOf(greaterThan(0.0), lessThan(1.0)));
 
     }

@@ -2,7 +2,6 @@ package com.gorbash.neural;
 
 import org.junit.Test;
 
-import java.util.Arrays;
 import java.util.List;
 
 import static java.lang.Math.abs;

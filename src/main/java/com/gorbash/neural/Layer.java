@@ -30,8 +30,8 @@ class Layer {
     }
 
     static class LayerBuilder {
-        private int inputs;
-        private int outputs;
+        private final int inputs;
+        private final int outputs;
         private TransferFunction function;
         private double bias;
         private boolean defaultWeightsValue;
@@ -118,9 +118,9 @@ class Layer {
 
     @Override
     public String toString() {
-        StringBuffer result = new StringBuffer("Layer: ");
+        StringBuilder result = new StringBuilder("Layer: ");
         for (Neuron neuron : neurons) {
-            result.append("Neuron #" + neuron.getNeuronID() + " ");
+            result.append("Neuron #").append(neuron.getNeuronID()).append(" ");
         }
         return result.toString();
     }
