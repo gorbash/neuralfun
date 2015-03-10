@@ -1,5 +1,7 @@
 import com.cedarsoftware.util.io.JsonWriter;
 import com.gorbash.neural.*;
+import com.gorbash.neural.tfunc.HardLimitTransfer;
+import com.gorbash.neural.tfunc.LinearTransfer;
 
 import java.io.FileWriter;
 import java.util.List;
@@ -19,7 +21,7 @@ public class Functional {
                 new TrainingElement(asList(1.0, 0.0), asList(1.0, 0.0)),
                 new TrainingElement(asList(1.0, 1.0), asList(0.0, 1.0)));
 
-        BPNeuralNetwork network = new BPNeuralNetwork.BPPNeuralNetworkBuilder(2, 2).randomizeBias().setHiddenLayers(asList(5,5)).build();
+        BPNeuralNetwork network = new BPNeuralNetwork.BPPNeuralNetworkBuilder(2, 2).randomizeBias().setHiddenLayers(asList(2)).build();
         BPNNTrainer trainer = BPNNTrainer.build(network, 2.0);
         NeuralNetworkMonitor monitor = new NeuralNetworkMonitor(network);
 

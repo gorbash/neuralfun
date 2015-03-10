@@ -38,6 +38,4 @@ public class NeuralNetworkMonitor {
         }
         return result;
     }
-
-
 }

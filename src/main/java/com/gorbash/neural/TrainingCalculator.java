@@ -35,20 +35,21 @@ public class TrainingCalculator {
         return result;
     }
 
-    double calculateNewBias(Double oldBias, Double delta) {
-        return oldBias + learningRate * delta;
-    }
-
     List<Double> calculateNewWeights(List<Double> stimuli, List<Double> weights, double delta) {
         checkArgument(stimuli.size() == weights.size());
         List<Double> result = new ArrayList<>();
         for (int i = 0; i < weights.size(); i++) {
-            Double weight = weights.get(i);
-            Double nInput = stimuli.get(i);
-            double newWeight = weight + learningRate * delta * nInput;
-            result.add(newWeight);
+            result.add(calculateNewWeight(stimuli.get(i), weights.get(i), delta, i));
         }
         return result;
+    }
+
+    private double calculateNewWeight(double input, double weight, double delta, int i) {
+        return weight + learningRate * delta * input;
+    }
+
+    double calculateNewBias(Double oldBias, Double delta) {
+        return oldBias + learningRate * delta;
     }
 
 
