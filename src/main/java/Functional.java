@@ -1,7 +1,9 @@
 import com.cedarsoftware.util.io.JsonWriter;
-import com.gorbash.neural.*;
-import com.gorbash.neural.tfunc.HardLimitTransfer;
-import com.gorbash.neural.tfunc.LinearTransfer;
+import com.gorbash.neural.network.BPNeuralNetwork;
+import com.gorbash.neural.trainer.BPNNTrainer;
+import com.gorbash.neural.trainer.NeuralNetworkMonitor;
+import com.gorbash.neural.trainer.TrainingElement;
+import com.gorbash.neural.trainer.TrainingManager;
 
 import java.io.FileWriter;
 import java.util.List;

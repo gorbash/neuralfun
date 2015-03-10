@@ -1,4 +1,4 @@
-package com.gorbash.neural;
+package com.gorbash.neural.trainer;
 
 import java.util.List;
 
@@ -23,4 +23,11 @@ public class TrainingElement {
         return input;
     }
 
+    @Override
+    public String toString() {
+        return "TrainingElement{" +
+                "input=" + input +
+                ", expectedOutput=" + expectedOutput +
+                '}';
+    }
 }

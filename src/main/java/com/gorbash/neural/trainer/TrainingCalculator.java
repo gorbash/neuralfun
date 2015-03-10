@@ -1,4 +1,4 @@
-package com.gorbash.neural;
+package com.gorbash.neural.trainer;
 
 import java.util.ArrayList;
 import java.util.List;

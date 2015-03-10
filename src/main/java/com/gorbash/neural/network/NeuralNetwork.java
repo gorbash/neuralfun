@@ -1,4 +1,4 @@
-package com.gorbash.neural;
+package com.gorbash.neural.network;
 
 import java.util.List;
 

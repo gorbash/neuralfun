@@ -1,5 +1,6 @@
-package com.gorbash.neural;
+package com.gorbash.neural.trainer;
 
+import com.gorbash.neural.network.NeuralNetwork;
 import org.apache.log4j.Logger;
 
 import java.util.List;

@@ -1,5 +1,8 @@
-package com.gorbash.neural;
+package com.gorbash.neural.trainer;
 
+import com.gorbash.neural.trainer.Trainer;
+import com.gorbash.neural.trainer.TrainingElement;
+import com.gorbash.neural.trainer.TrainingManager;
 import org.junit.Test;
 
 import java.util.*;

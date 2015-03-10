@@ -1,4 +1,4 @@
-package com.gorbash.neural;
+package com.gorbash.neural.network;
 
 import com.gorbash.neural.tfunc.SigmoidTransfer;
 import com.gorbash.neural.tfunc.TransferFunction;

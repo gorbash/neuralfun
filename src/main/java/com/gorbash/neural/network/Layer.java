@@ -1,4 +1,4 @@
-package com.gorbash.neural;
+package com.gorbash.neural.network;
 
 import com.gorbash.neural.tfunc.TransferFunction;
 
@@ -12,7 +12,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 /**
  * Created by Gorbash on 2015-03-01.
  */
-class Layer {
+public class Layer {
 
     private static final double DEFAULT_WEIGHT = 1.0;
 

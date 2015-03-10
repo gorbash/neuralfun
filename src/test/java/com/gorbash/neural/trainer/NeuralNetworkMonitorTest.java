@@ -1,5 +1,8 @@
-package com.gorbash.neural;
+package com.gorbash.neural.trainer;
 
+import com.gorbash.neural.network.NeuralNetwork;
+import com.gorbash.neural.trainer.NeuralNetworkMonitor;
+import com.gorbash.neural.trainer.TrainingElement;
 import org.junit.Test;
 
 import static java.util.Arrays.asList;

@@ -1,5 +1,8 @@
-package com.gorbash.neural;
+package com.gorbash.neural.trainer;
 
+import com.gorbash.neural.network.BPNeuralNetwork;
+import com.gorbash.neural.network.Layer;
+import com.gorbash.neural.network.Neuron;
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;

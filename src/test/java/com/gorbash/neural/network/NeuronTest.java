@@ -1,7 +1,8 @@
-package com.gorbash.neural;
+package com.gorbash.neural.network;
 
 import com.cedarsoftware.util.io.JsonReader;
 import com.cedarsoftware.util.io.JsonWriter;
+import com.gorbash.neural.network.Neuron;
 import com.gorbash.neural.tfunc.SigmoidTransfer;
 import org.junit.Assert;
 import org.junit.Test;

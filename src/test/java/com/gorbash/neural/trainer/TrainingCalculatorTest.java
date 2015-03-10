@@ -1,5 +1,6 @@
-package com.gorbash.neural;
+package com.gorbash.neural.trainer;
 
+import com.gorbash.neural.trainer.TrainingCalculator;
 import org.junit.Test;
 
 import static java.util.Arrays.asList;
