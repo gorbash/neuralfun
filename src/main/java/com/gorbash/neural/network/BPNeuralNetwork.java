@@ -102,17 +102,21 @@ public class BPNeuralNetwork implements NeuralNetwork {
             int inputs = inputsCount;
             result.layers = new ArrayList<>();
             for (Integer neuronCountInLayer : neuronCounts) {
-                Layer.LayerBuilder layerBuilder = new Layer.LayerBuilder(inputs, neuronCountInLayer).setTransferFunction(function);
-                setupWeights(layerBuilder);
-                setupBias(layerBuilder);
-                Layer layer = layerBuilder.build();
+                result.layers.add(buildLayer(inputs, neuronCountInLayer));
                 inputs = neuronCountInLayer;
-                result.layers.add(layer);
             }
-            Layer.LayerBuilder layerBuilder = new Layer.LayerBuilder(inputs, outputsCount).setTransferFunction(function);
+            result.layers.add(buildLayer(inputs, outputsCount));
+        }
+
+        private Layer buildLayer(int inputs, Integer neuronCountInLayer) {
+            Layer.LayerBuilder layerBuilder = new Layer.LayerBuilder(inputs, neuronCountInLayer).setTransferFunction(function);
+            setupFreeParameters(layerBuilder);
+            return layerBuilder.build();
+        }
+
+        private void setupFreeParameters(Layer.LayerBuilder layerBuilder) {
             setupWeights(layerBuilder);
             setupBias(layerBuilder);
-            result.layers.add(layerBuilder.build());
         }
 
         private void setupBias(Layer.LayerBuilder layerBuilder) {
@@ -139,11 +143,9 @@ public class BPNeuralNetwork implements NeuralNetwork {
 
     public List<Double> giveResponse(List<Double> input) {
         checkArgument(input.size() == inputsCount, "Given input size must be the same as input count of the network");
-        List<Double> stimuli = input;
-        List<Double> response = null;
+        List<Double> response = input;
         for (Layer layer : layers) {
-            response = layer.giveResponse(stimuli);
-            stimuli = response;
+            response = layer.giveResponse(response);
         }
         logger.debug(String.format("Network response for %s is %s", input, response));
         return response;
