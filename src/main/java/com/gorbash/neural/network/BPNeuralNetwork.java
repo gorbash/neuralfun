@@ -20,12 +20,9 @@ public class BPNeuralNetwork implements NeuralNetwork {
     private final static Logger logger = Logger.getLogger(BPNeuralNetwork.class);
 
     private List<Layer> layers;
-    private final int inputsCount;
-    private final int outputsCount;
 
-    private BPNeuralNetwork(int inputsCount, int outputsCount) {
-        this.inputsCount = inputsCount;
-        this.outputsCount = outputsCount;
+
+    private BPNeuralNetwork() {
     }
 
 
@@ -34,11 +31,11 @@ public class BPNeuralNetwork implements NeuralNetwork {
     }
 
     public int getInputsCount() {
-        return inputsCount;
+        return layers.get(0).getNeurons().get(0).getInputsCount();
     }
 
     public int getOutputsCount() {
-        return outputsCount;
+        return layers.get(layers.size() - 1).getNeuronsCount();
     }
 
     public int getNeuronsCountInLayer(int layerIndex) {
@@ -93,7 +90,7 @@ public class BPNeuralNetwork implements NeuralNetwork {
 
         public BPNeuralNetwork build() {
             logger.debug(String.format("Building network with %d inputs, %d hidden layers, %d outputs, bias=%f, defaultWeightValue is set to %b, transfer function is %s", inputsCount, neuronCounts.size(), outputsCount, bias, defaultWeightsValue, function.getClass().getCanonicalName()));
-            BPNeuralNetwork result = new BPNeuralNetwork(inputsCount, outputsCount);
+            BPNeuralNetwork result = new BPNeuralNetwork();
             setupLayers(result);
             return result;
         }
@@ -142,7 +139,7 @@ public class BPNeuralNetwork implements NeuralNetwork {
     }
 
     public List<Double> giveResponse(List<Double> input) {
-        checkArgument(input.size() == inputsCount, "Given input size must be the same as input count of the network");
+        checkArgument(input.size() == getInputsCount(), "Given input size must be the same as input count of the network");
         List<Double> response = input;
         for (Layer layer : layers) {
             response = layer.giveResponse(response);

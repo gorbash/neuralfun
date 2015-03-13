@@ -4,6 +4,7 @@ import com.cedarsoftware.util.io.JsonReader;
 import com.cedarsoftware.util.io.JsonWriter;
 import com.gorbash.neural.network.Neuron;
 import com.gorbash.neural.tfunc.SigmoidTransfer;
+import com.gorbash.neural.tfunc.TransferFunction;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -69,6 +70,15 @@ public class NeuronTest {
         assertThat(otherNeuron.getInputsCount(), is(neuron.getInputsCount()));
         assertThat(otherNeuron.getStimuli(), is(neuron.getStimuli()));
         assertThat(otherNeuron.getWeights(), is(neuron.getWeights()));
+
+
+        List<Double> otherStimuli = asList(0.5, 13.0);
+        neuron.applyStimuli(otherStimuli);
+        otherNeuron.applyStimuli(otherStimuli);
+
+        assertThat(otherNeuron.getResponse(), is(neuron.getResponse()));
+
+
     }
 
     @Test
