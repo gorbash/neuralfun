@@ -2,8 +2,11 @@ package com.gorbash.neural.trainer;
 
 import org.apache.log4j.Logger;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -13,6 +16,7 @@ import static java.lang.System.currentTimeMillis;
 /**
  * Created by ars032 on 3/9/2015.
  */
+
 public class TrainingManager {
     private final static Logger logger = Logger.getLogger(TrainingManager.class);
     private final Trainer trainer;
@@ -22,6 +26,14 @@ public class TrainingManager {
         this(trainer, 1000);
     }
 
+    public static void timed(Runnable func, String description, Consumer<String> output) {
+        Instant start = Instant.now();
+        func.run();
+        Instant end = Instant.now();
+        Duration duration = Duration.between(start, end);
+        output.accept(String.format("%s took %ss", description, duration.getSeconds()));
+    }
+
     public TrainingManager(Trainer trainer, int iterations) {
         checkArgument(iterations > 0, "iterations must be greater than 0");
         this.iterations = iterations;
@@ -29,10 +41,7 @@ public class TrainingManager {
     }
 
     public void runTraining(List<TrainingElement> trainingSuite) {
-        long start = currentTimeMillis();
-        prepareTestSuite(trainingSuite).stream().forEach(trainer::train);
-        long end = currentTimeMillis();
-        logger.info(String.format("Training of %s iterations, each %s steps took %s ms", iterations, trainingSuite.size(), (end-start)));
+        timed(() -> prepareTestSuite(trainingSuite).forEach(trainer::train), String.format("Learning %d elements in %d iterations", trainingSuite.size(), iterations), logger::info);
     }
 
     private List<TrainingElement> prepareTestSuite(List<TrainingElement> trainingSuite) {
@@ -41,7 +50,7 @@ public class TrainingManager {
 
     private List<TrainingElement> getRandomizeSuite(List<TrainingElement> initialTrainingList) {
         List<TrainingElement> randomizedTrainingList = new ArrayList<>();
-        while(!initialTrainingList.isEmpty()) {
+        while (!initialTrainingList.isEmpty()) {
             randomizedTrainingList.add(popRandomElement(initialTrainingList));
         }
         return randomizedTrainingList;
@@ -52,7 +61,7 @@ public class TrainingManager {
     }
 
     private int getRandomElementIndex(int size) {
-        return (int)(random()*size);
+        return (int) (random() * size);
     }
 
     private List<TrainingElement> getExplodedSuite(List<TrainingElement> trainingSuite) {

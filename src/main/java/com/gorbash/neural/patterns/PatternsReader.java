@@ -21,7 +21,7 @@ public class PatternsReader {
 
     public List<TrainingElement> readElements(List<File> files) throws IOException {
         List<TrainingElement> result = new ArrayList<>();
-        files.stream().forEach((file1) -> readElement(file1));
+        files.forEach((file1) -> readElement(file1));
         for (File file:files) {
             readElement(file);
         }
@@ -117,7 +117,7 @@ public class PatternsReader {
         BPNNTrainer trainer = BPNNTrainer.build(network, 1.0);
         NeuralNetworkMonitor monitor = new NeuralNetworkMonitor(network);
 
-        TrainingManager manager = new TrainingManager(trainer, 10000);
+        TrainingManager manager = new TrainingManager(trainer, 1000);
         double before = monitor.getTotalError(suite);
         manager.runTraining(suite);
         double after = monitor.getTotalError(suite);
