@@ -5,7 +5,6 @@ import com.gorbash.neural.network.Layer;
 import com.gorbash.neural.network.Neuron;
 import org.apache.log4j.Logger;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 import java.util.stream.Collectors;
@@ -38,54 +37,55 @@ public class BPNNTrainer implements Trainer {
     }
 
     public void train(TrainingElement element) {
-
-        List<Double> inputs = element.getInput();
-        List<Double> expectedOutput = element.getExpectedOutput();
-
         //TODO: refactor!
-        checkArgument(inputs.size() == network.getInputsCount(), "Size of input must be the same as size of network input");
-        checkArgument(expectedOutput.size() == network.getOutputsCount(), "Size of output must be the same as size of network output");
+        validateTrainingElement(element);
 
-        List<Double> networkOutputs = network.giveResponse(inputs);
-        List<Double> outputErrorFactors = calculator.calculateOutputLayerErrorFactors(networkOutputs, expectedOutput);
-
-        Stack<List<Double>> deltasStack = new Stack<>();
+        List<Double> networkOutputs = network.giveResponse(element.getInput());
+        List<Double> outputErrorFactors = calculator.calculateOutputLayerErrorFactors(networkOutputs, element.getExpectedOutput());
 
         Layer previousLayer = network.getOutputLayer();
         List<Double> lastLayerDelta = calculator.calculateDeltas(getResponses(previousLayer), outputErrorFactors);
 
+        Stack<List<Double>> deltasStack = new Stack<>();
         deltasStack.push(lastLayerDelta);
         List<Double> previousLayerDeltas = lastLayerDelta;
         int hiddenLayersCount = network.getHiddenLayersCount();
         for (int i = hiddenLayersCount - 1; i >= 0; i--) {
             Layer hiddenLayer = network.getHiddenLayer(i);
-            List<Double> hiddenLayerErrorFactors = calculateHiddenLayerErrorFactors(hiddenLayer, previousLayer, previousLayerDeltas);
+            List<Double> hiddenLayerErrorFactors = calculator.calculateHiddenLayerErrorFactors(hiddenLayer, previousLayer, previousLayerDeltas);
             previousLayerDeltas = calculator.calculateDeltas(getResponses(hiddenLayer), hiddenLayerErrorFactors);
             deltasStack.push(previousLayerDeltas);
             previousLayer = hiddenLayer;
         }
 
+        updateFreeParamsOfNetwork(deltasStack);
+    }
+
+    private void updateFreeParamsOfNetwork(Stack<List<Double>> deltasStack) {
         for (int i = 0; i < network.getHiddenLayersCount(); i++) {
             Layer hiddenLayer = network.getHiddenLayer(i);
-            List<Double> deltas = deltasStack.pop();
-            updateFreeParams(hiddenLayer, deltas);
+            updateFreeParamsOfLayer(hiddenLayer, deltasStack.pop());
         }
+        updateFreeParamsOfLayer(network.getOutputLayer(), deltasStack.pop());
+    }
 
-        updateFreeParams(network.getOutputLayer(), deltasStack.pop());
+    private void validateTrainingElement(TrainingElement element) {
+        checkArgument(element.getInput().size() == network.getInputsCount(), "Size of input must be the same as size of network input");
+        checkArgument(element.getExpectedOutput().size() == network.getOutputsCount(), "Size of output must be the same as size of network output");
     }
 
     private List<Double> getResponses(Layer layer) {
         return layer.getNeurons().stream().map(Neuron::getResponse).collect(Collectors.toList());
     }
 
-    private void updateFreeParams(Layer layer, List<Double> deltas) {
+    private void updateFreeParamsOfLayer(Layer layer, List<Double> deltas) {
         List<Neuron> neurons = layer.getNeurons();
         for (int i = 0; i < neurons.size(); i++) {
-            updateNeuronFreeParam(neurons.get(i), deltas.get(i));
+            updateFreeParamsOfNeuron(neurons.get(i), deltas.get(i));
         }
     }
 
-    private void updateNeuronFreeParam(Neuron neuron, Double delta) {
+    private void updateFreeParamsOfNeuron(Neuron neuron, Double delta) {
         double newBias = calculator.calculateNewBias(neuron.getBias(), delta);
         List<Double> newWeights = calculator.calculateNewWeights(neuron.getStimuli(), neuron.getWeights(), delta);
         logger.debug(String.format("Updating %s: weights to %s, bias to %s", neuron, newWeights, newBias));
@@ -94,24 +94,4 @@ public class BPNNTrainer implements Trainer {
     }
 
 
-    private List<Double> calculateHiddenLayerErrorFactors(Layer hiddenLayer, Layer previousLayer, List<Double> previousLayerDeltas) {
-
-        //TODO: move to calculator
-        List<Double> result = new ArrayList<>();
-        List<Neuron> neurons = hiddenLayer.getNeurons();
-        for (int i = 0; i < neurons.size(); i++) {
-            result.add(calculateErrorFactorForNeuron(previousLayer, previousLayerDeltas, i));
-        }
-        return result;
-    }
-
-    private double calculateErrorFactorForNeuron(Layer previousLayer, List<Double> previousLayerDeltas, int inputIndex) {
-        //TODO: move to calculator
-        double errorFactor = 0;
-        for (int j = 0; j < previousLayerDeltas.size(); j++) {
-            Neuron previousNeuron = previousLayer.getNeurons().get(j);
-            errorFactor += previousNeuron.getWeights().get(inputIndex) * previousLayerDeltas.get(j);
-        }
-        return errorFactor;
-    }
 }

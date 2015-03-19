@@ -1,5 +1,8 @@
 package com.gorbash.neural.trainer;
 
+import com.gorbash.neural.network.Layer;
+import com.gorbash.neural.network.Neuron;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +15,7 @@ public class TrainingCalculator {
 
     private final double learningRate;
 
-    public TrainingCalculator(double learningRate) {
+    TrainingCalculator(double learningRate) {
         this.learningRate = learningRate;
     }
 
@@ -52,5 +55,23 @@ public class TrainingCalculator {
         return oldBias + learningRate * delta;
     }
 
+    List<Double> calculateHiddenLayerErrorFactors(Layer hiddenLayer, Layer previousLayer, List<Double> previousLayerDeltas) {
 
+        List<Double> result = new ArrayList<>();
+        List<Neuron> neurons = hiddenLayer.getNeurons();
+        for (int i = 0; i < neurons.size(); i++) {
+            result.add(calculateErrorFactorForNeuron(previousLayer, previousLayerDeltas, i));
+        }
+        return result;
+    }
+
+    private double calculateErrorFactorForNeuron(Layer previousLayer, List<Double> previousLayerDeltas, int inputIndex) {
+
+        double errorFactor = 0;
+        for (int j = 0; j < previousLayerDeltas.size(); j++) {
+            Neuron previousNeuron = previousLayer.getNeurons().get(j);
+            errorFactor += previousNeuron.getWeights().get(inputIndex) * previousLayerDeltas.get(j);
+        }
+        return errorFactor;
+    }
 }
